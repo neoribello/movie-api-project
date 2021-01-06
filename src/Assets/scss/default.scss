@@ -1,7 +1,31 @@
-body {
-    font-size: 10px;
+* > body {
+    margin: 0;
+    box-sizing: border-box;
+  }
+  
 
+body {
     a {
         color: black;
+    }
+}
+
+.wrap {
+    width: 100%;
+    position: relative;
+}
+
+.movielist-container {
+    width: 100%;
+    position: relative;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0;
+
+    .movielist-items {
+        list-style-type: none;
+        width: calc(100% / 4);
     }
 }
