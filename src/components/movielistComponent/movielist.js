@@ -14,14 +14,11 @@ function MovieList() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const api = axios.create({ baseURL: BASE_URL });
-
   const getUpcoming = api.get("movie/upcoming", { params: { api_key } });
-
   const getPopular = api.get("movie/popular", { params: { api_key } });
-
   const searchMovies = "https://api.themoviedb.org/3/search/movie?&api_key=e68f0e35dcc5a1bd27bfaedc41d3c894&query=";
 
-  //SEARCH not using axios
+  
   const handleOnSubmit = (e) => {
     e.preventDefault();
 
@@ -29,6 +26,7 @@ function MovieList() {
       fetch(searchMovies + searchTerm)
       .then((res) => res.json())
       .then((data) => {
+        console.log("search", data)
         setData(data.results);
       });
 
@@ -70,12 +68,15 @@ function MovieList() {
   return (
     <Container maxWidth="lg">
       <form onSubmit={handleOnSubmit}>
-        <input
+        <TextField
           className="search"
-          type="search"
+          name="query"
+          type="text"
           placeholder="Search..."
+          value={searchTerm}
           onChange={handleonChange}>
-        </input>
+        </TextField>
+        <Button className="button" type="submit">Search</Button>
       </form>
 
       {/* Sort Buttons */}
