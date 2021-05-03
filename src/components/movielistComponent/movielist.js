@@ -37,25 +37,6 @@ function MovieList() {
   const handleonChange = (e) => {
     setSearchTerm(e.target.value);
   }
-
-  //onClick Upcoming
-
-  const handleUpcoming = () => {
-    getUpcoming.then(response => {
-      setData(response.data.results);
-      console.log(data);
-    });
-  }
-
-  //onClick Popular
-
-  const handlePopular = () => {
-    getPopular.then(response => {
-      setData(response.data.results);
-      console.log(data);
-    });
-  }
-
   //Shows initial 
   
   useEffect(() => {
@@ -78,16 +59,6 @@ function MovieList() {
         </TextField>
         <Button className="button" type="submit">Search</Button>
       </form>
-
-      {/* Sort Buttons */}
-
-      <Button onClick={handleUpcoming} variant="contained" color="primary">
-        Sort by Upcoming
-      </Button>
-
-      <Button onClick={handlePopular} variant="contained" color="primary">
-        Sort by Popular
-      </Button>
 
 
       <ul className="movielist-container">
