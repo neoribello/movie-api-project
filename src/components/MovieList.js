@@ -37,6 +37,7 @@ function MovieList() {
   const handleonChange = (e) => {
     setSearchTerm(e.target.value);
   }
+
   //Shows initial 
   
   useEffect(() => {
@@ -59,8 +60,7 @@ function MovieList() {
         </TextField>
         <Button className="button" type="submit">Search</Button>
       </form>
-
-
+      
       <ul className="movielist-container">
         {data.map((movie) => (
             <li className="movielist-items">
