@@ -1,6 +1,7 @@
 import React, { useEffect, useState, setState, setLoading } from "react";
+import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
-import { Container, TextField, Button } from "@material-ui/core"
+import { Container, TextField, Button, Link } from "@material-ui/core"
 
 //css
 
@@ -14,11 +15,10 @@ function MovieList() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const api = axios.create({ baseURL: BASE_URL });
-  const getUpcoming = api.get("movie/upcoming", { params: { api_key } });
   const getPopular = api.get("movie/popular", { params: { api_key } });
   const searchMovies = "https://api.themoviedb.org/3/search/movie?&api_key=e68f0e35dcc5a1bd27bfaedc41d3c894&query=";
 
-  
+  console.log("data: ", data)
   const handleOnSubmit = (e) => {
     e.preventDefault();
 
@@ -39,13 +39,20 @@ function MovieList() {
   }
 
   //Shows initial 
+  const history = useHistory();
   
   useEffect(() => {
-    getUpcoming.then(response => {
+    getPopular.then(response => {
       setData(response.data.results);
       console.log(data);
     });
   }, []);
+
+  const handleClick = (movieId) => {
+    console.log("movie item", movieId)
+    history.push(`/movie/${movieId}`)
+  };
+
 
   return (
     <Container maxWidth="lg">
@@ -63,14 +70,22 @@ function MovieList() {
       
       <ul className="movielist-container">
         {data.map((movie) => (
-            <li className="movielist-items">
-              <img src={getImage(movie.poster_path)} />
-              <p>{movie.original_title}</p>
-              <p>{movie.vote_average}</p>
-            </li>
+          <li className="movielist-items">
+            <img src={getImage(movie.poster_path)} />
+            <p>{movie.original_title}</p>
+            <p>{movie.vote_average}</p>
+            <Link
+              component="button"
+              variant="body2"
+              color="primary"
+              onClick={() => handleClick(movie.id)}
+            >
+              Details
+            </Link>
+          </li>
         ))}
       </ul>
-      </Container>
+    </Container>
   );
 }
 
