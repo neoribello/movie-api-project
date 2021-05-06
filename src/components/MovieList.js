@@ -70,7 +70,7 @@ function MovieList() {
       
       <ul className="movielist-container">
         {data.map((movie) => (
-          <li className="movielist-items">
+          <li onClick={() => handleClick(movie.id)} className="movielist-items">
             <img src={getImage(movie.poster_path)} />
             <p>{movie.original_title}</p>
             <p>{movie.vote_average}</p>
@@ -78,7 +78,6 @@ function MovieList() {
               component="button"
               variant="body2"
               color="primary"
-              onClick={() => handleClick(movie.id)}
             >
               Details
             </Link>

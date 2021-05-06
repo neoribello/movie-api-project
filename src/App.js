@@ -8,7 +8,7 @@ import HomePage from './components/pages/homePage';
 
 //css
 import './Assets/css/default.min.css'
-import MovieDetails from "./components/MovieDetails";
+import MovieDetails from "./components/MovieDetails/MovieDetails";
 
 function App() {
 
