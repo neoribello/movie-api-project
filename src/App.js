@@ -16,13 +16,11 @@ function App() {
     <Router>
     <div className="App">
       <Header />
-      <HomePage />
+        <Switch>
+          <Route path="/" exact component={HomePage} />
+          <Route path="/movie/:movie_id" component={MovieDetails} />
+        </Switch>
       <Footer />
-
-      <Switch>
-        <Route path="/" exact component={HomePage} />
-        <Route path="/movie/:movie_id" component={MovieDetails} />
-      </Switch>
     </div>
     </Router>
   );
