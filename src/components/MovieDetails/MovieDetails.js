@@ -54,7 +54,7 @@ function MovieDetails() {
   const classes = useStyles();
 
   const getColour = (r) => {
-    return r > 50 ? "green" : r < 50 ? "red" : "lightgray";
+    return r > 5.0 ? "green" : r < 5.0 ? "red" : "white";
   }
 
   return (
@@ -78,14 +78,12 @@ function MovieDetails() {
                   <p>{item.overview}</p>
 
                   <CircularProgressbar
-                    minValue={0}
-                    maxValue={100}
-                    value={item.vote_average}
+                    value={item.vote_average * 10}
                     text={`${item.vote_average * 10}%`}
                     strokeWidth={5}
                     styles = {buildStyles({
-                      textColor: getColour(item.vote_average),
-                      pathColor: getColour(item.vote_average)
+                      textColor: getColour(Number(item.vote_average)),
+                      pathColor: getColour(Number(item.vote_average))
                     }
                     )}
                   />
