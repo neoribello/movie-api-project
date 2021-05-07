@@ -1,13 +1,16 @@
 import axios from 'axios';
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { useParams } from "react-router-dom";
 
 import "../MovieDetails/MovieDetails.scss";
 
 const api_key  = "e68f0e35dcc5a1bd27bfaedc41d3c894";
 const BASE_URL = "https://api.themoviedb.org/3";
-const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
+
+const getImagePoster = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
+const getImageBackdrop = (path) => `https://image.tmdb.org/t/p/original/${path}`;
 
 
 const useStyles = makeStyles((theme) => ({ 
@@ -35,6 +38,7 @@ function MovieDetails() {
   const getDetails = api.get(`movie/${movie_id}`, { params: { api_key } });
   const getImages = api.get(`/movie/${movie_id}/images`, { params: { api_key } })
 
+
   useEffect(() => {
     getDetails.then(res => {
       console.log(res.data)
@@ -49,28 +53,49 @@ function MovieDetails() {
 
   const classes = useStyles();
 
+  const getColour = (r) => {
+    return r > 50 ? "green" : r < 50 ? "red" : "lightgray";
+  }
+
   return (
     <div>
       {detail.map((item, i) => (
         <div key={i}>
+
+          {/* Header */}
           {image.map((elem, i) => (
             <div key={i} style={{
-              backgroundImage: `url(${getImage(elem.backdrops[0].file_path)})`,
+              backgroundImage: `url(${getImageBackdrop(elem.backdrops[0].file_path)})`,
               height: `${elem.backdrops[0].height}`
               }} 
               className={classes.header}
             >
             <div className={classes.custom_bg}>
               <div className="header-contents__container">
-                <img className="header-contents__image" src={getImage(item.poster_path)} />
+                <img className="header-contents__image" src={getImagePoster(item.poster_path)} alt="movie-poster" />
                 <div className="header-contents__text">
-                  <p>{item.title}</p>
+                  <h1>{item.title}</h1>
                   <p>{item.overview}</p>
+
+                  <CircularProgressbar
+                    minValue={0}
+                    maxValue={100}
+                    value={item.vote_average}
+                    text={`${item.vote_average * 10}%`}
+                    strokeWidth={5}
+                    styles = {buildStyles({
+                      textColor: getColour(item.vote_average),
+                      pathColor: getColour(item.vote_average)
+                    }
+                    )}
+                  />
                 </div>
               </div>
             </div>
             </div>
           ))}
+          {/* Header */}
+
         </div>
       ))}
     </div>
