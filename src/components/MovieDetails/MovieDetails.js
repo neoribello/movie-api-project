@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { useParams } from "react-router-dom";
+import 'react-circular-progressbar/dist/styles.css';
 
 import "../MovieDetails/MovieDetails.scss";
 
@@ -25,6 +26,14 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     flexWrap: "wrap"
+  },
+
+  voteBar: {
+    width: "100px",
+    height: "100px",
+    background: "#081c22",
+    borderRadius: "100%",
+    padding: "5px"
   }
 
 }));
@@ -78,12 +87,16 @@ function MovieDetails() {
                   <p>{item.overview}</p>
 
                   <CircularProgressbar
+                    className={classes.voteBar}
                     value={item.vote_average * 10}
                     text={`${item.vote_average * 10}%`}
-                    strokeWidth={5}
+                    strokeWidth={10}
                     styles = {buildStyles({
                       textColor: getColour(Number(item.vote_average)),
-                      pathColor: getColour(Number(item.vote_average))
+                      pathColor: getColour(Number(item.vote_average)),
+                      background: {
+                        fill: 'white',
+                      }
                     }
                     )}
                   />
