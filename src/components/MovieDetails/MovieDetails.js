@@ -29,8 +29,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   voteBar: {
-    width: "100px",
-    height: "100px",
+    width: "70px",
+    height: "70px",
     background: "#081c22",
     borderRadius: "100%",
     padding: "5px"
@@ -41,11 +41,14 @@ const useStyles = makeStyles((theme) => ({
 function MovieDetails() {
   const [detail, setDetail] = useState([]);
   const [image, setImage] = useState([]);
+  const [credit, setCredit] = useState([]);
+
   const { movie_id } = useParams();
 
   const api = axios.create({ baseURL: BASE_URL });
   const getDetails = api.get(`movie/${movie_id}`, { params: { api_key } });
-  const getImages = api.get(`/movie/${movie_id}/images`, { params: { api_key } })
+  const getImages = api.get(`/movie/${movie_id}/images`, { params: { api_key } });
+  const getCredits = api.get(`/movie/${movie_id}/credits`, { params: { api_key } });
 
 
   useEffect(() => {
@@ -55,8 +58,12 @@ function MovieDetails() {
     })
 
     getImages.then(res => {
-      console.log("images", res.data)
       setImage([res.data])
+    })
+
+    getCredits.then(res => {
+      console.log("credits", res.data)
+      setCredit([res.data])
     })
   }, []);
 
@@ -84,7 +91,6 @@ function MovieDetails() {
                 <img className="header-contents__image" src={getImagePoster(item.poster_path)} alt="movie-poster" />
                 <div className="header-contents__text">
                   <h1>{item.title}</h1>
-                  <p>{item.overview}</p>
 
                   <CircularProgressbar
                     className={classes.voteBar}
@@ -92,14 +98,13 @@ function MovieDetails() {
                     text={`${item.vote_average * 10}%`}
                     strokeWidth={10}
                     styles = {buildStyles({
-                      textColor: getColour(Number(item.vote_average)),
+                      textColor: "white",
                       pathColor: getColour(Number(item.vote_average)),
-                      background: {
-                        fill: 'white',
                       }
-                    }
                     )}
                   />
+                  <p>{item.tagline}</p>
+                  <p>{item.overview}</p>
                 </div>
               </div>
             </div>
