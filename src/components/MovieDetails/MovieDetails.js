@@ -1,11 +1,17 @@
 import axios from 'axios';
 import React, { useState, useEffect } from "react";
+
+import FacebookIcon from '@material-ui/icons/Facebook';
+import TwitterIcon from '@material-ui/icons/Twitter';
+import InstagramIcon from '@material-ui/icons/Instagram';
+
 import { makeStyles } from "@material-ui/core/styles";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { useParams } from "react-router-dom";
 import 'react-circular-progressbar/dist/styles.css';
 
 import "../MovieDetails/MovieDetails.scss";
+import { lightGreen } from '@material-ui/core/colors';
 
 const api_key  = "e68f0e35dcc5a1bd27bfaedc41d3c894";
 const BASE_URL = "https://api.themoviedb.org/3";
@@ -35,6 +41,11 @@ const useStyles = makeStyles((theme) => ({
     background: "#081c22",
     borderRadius: "100%",
     padding: "5px"
+  },
+
+  largeIcon: {
+    width: 30,
+    height: 30,
   }
 
 }));
@@ -43,6 +54,7 @@ function MovieDetails() {
   const [detail, setDetail] = useState([]);
   const [image, setImage] = useState([]);
   const [credit, setCredit] = useState([]);
+  const [social, setSocial] = useState([]);
 
   const { movie_id } = useParams();
 
@@ -50,6 +62,7 @@ function MovieDetails() {
   const getDetails = api.get(`movie/${movie_id}`, { params: { api_key } });
   const getImages = api.get(`/movie/${movie_id}/images`, { params: { api_key } });
   const getCredits = api.get(`/movie/${movie_id}/credits`, { params: { api_key } });
+  const getSocials = api.get(`/movie/${movie_id}/external_ids`, { params: { api_key } });
 
 
   useEffect(() => {
@@ -65,6 +78,11 @@ function MovieDetails() {
     getCredits.then(res => {
       console.log("credits", res.data.cast)
       setCredit(res.data.cast)
+    })
+
+    getSocials.then(res => {
+      console.log("socials", res.data)
+      setSocial([res.data])
     })
   }, []);
 
@@ -115,23 +133,70 @@ function MovieDetails() {
           {/* Header */}
           <div className="movie-details__container">
             <div className="movie-details__left">
-              {credit.slice(0, 9).map((cast, i) => (
-                <div key={i}>
-                  <ul className="actors-list">
-                    <li className="actors-card">
+              <h4>Top Billed Cast</h4>
+              <section className="actors-container">
+                <ul className="actors-list">
+                  {credit.slice(0, 9).map((cast, i) => (
+                    <li className="actors-card" key={i}>
                       <img alt="actor" className="actor-image" src={getImageCast(cast.profile_path)} />
                       <p>{cast.name}</p>
                       <p>{cast.character}</p>
                     </li>
-                  </ul>
-                </div>
-              ))}
+                  ))}
+                </ul>
+              </section>
             </div>
-            <div className="movie-details__right">
             
+            <div className="movie-details__right">
+              {social.map((socials, i) => (
+                  <div key={i}>
+                    <ul className="social-link__list">
+                      <li className="social-link__item">
+                        <a className="social-link" rel="noreferrer" target="_blank" href={`https:/facebook.com/${socials.facebook_id}`}>
+                          <FacebookIcon 
+                            className={classes.largeIcon} 
+                          />
+                        </a>
+                      </li>
+                      <li className="social-link__item">
+                        <a className="social-link" rel="noreferrer" target="_blank" href={`https:/twitter.com/${socials.twitter_id}`}>
+                            <TwitterIcon
+                            className={classes.largeIcon} 
+                            />
+                        </a>
+                      </li>
+                      <li className="social-link__item">
+                        <a className="social-link" rel="noreferrer" target="_blank" href={`https:/instagram.com/${socials.instagram_id}`}>
+                            <InstagramIcon 
+                              className={classes.largeIcon} 
+                            />
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                ))}
+              <p>
+                <strong>Status</strong>
+                {item.status}
+              </p>
+
+              <p>
+                <strong>Original Language</strong>
+                {item.original_language}
+              </p>
+
+              <p>
+                <strong>Budget</strong>
+                {item.budget}
+              </p>
+
+              <p>
+                <strong>Revenue</strong>
+                {item.revenue}
+              </p>
+
             </div>
           </div>
-
         </div>
       ))}
     </div>

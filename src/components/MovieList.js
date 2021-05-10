@@ -1,5 +1,5 @@
-import React, { useEffect, useState, setState, setLoading } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {  useHistory } from "react-router-dom";
 import axios from "axios";
 import { Container, TextField, Button, Link } from "@material-ui/core"
 
@@ -71,7 +71,7 @@ function MovieList() {
       <ul className="movielist-container">
         {data.map((movie) => (
           <li onClick={() => handleClick(movie.id)} className="movielist-items">
-            <img src={getImage(movie.poster_path)} />
+            <img alt="movie-poster" src={getImage(movie.poster_path)} />
             <p>{movie.original_title}</p>
             <p>{movie.vote_average}</p>
             <Link
