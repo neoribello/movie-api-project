@@ -74,6 +74,7 @@ function MovieDetails() {
     return r > 5.0 ? "green" : r < 5.0 ? "red" : "white";
   }
 
+
   return (
     <div>
       {detail.map((item, i) => (
@@ -113,11 +114,13 @@ function MovieDetails() {
           ))}
           {/* Header */}
 
-          {credit.map((cast, i) => (
+          {credit.slice(0, 9).map((cast, i) => (
             <div key={i}>
-              <ul>
-                <li>
-                  <img src={getImageCast(cast.profile_path)} />
+              <ul className="actors-list">
+                <li className="actors-card">
+                  <img alt="actor" src={getImageCast(cast.profile_path)} />
+                  <p>{cast.name}</p>
+                  <p>{cast.character}</p>
                 </li>
               </ul>
             </div>
