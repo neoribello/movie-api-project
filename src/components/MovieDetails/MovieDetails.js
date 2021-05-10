@@ -12,6 +12,7 @@ const BASE_URL = "https://api.themoviedb.org/3";
 
 const getImagePoster = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 const getImageBackdrop = (path) => `https://image.tmdb.org/t/p/original/${path}`;
+const getImageCast = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 
 
 const useStyles = makeStyles((theme) => ({ 
@@ -62,8 +63,8 @@ function MovieDetails() {
     })
 
     getCredits.then(res => {
-      console.log("credits", res.data)
-      setCredit([res.data])
+      console.log("credits", res.data.cast)
+      setCredit(res.data.cast)
     })
   }, []);
 
@@ -111,6 +112,16 @@ function MovieDetails() {
             </div>
           ))}
           {/* Header */}
+
+          {credit.map((cast, i) => (
+            <div key={i}>
+              <ul>
+                <li>
+                  <img src={getImageCast(cast.profile_path)} />
+                </li>
+              </ul>
+            </div>
+          ))}
 
         </div>
       ))}
