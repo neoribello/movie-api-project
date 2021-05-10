@@ -113,18 +113,24 @@ function MovieDetails() {
             </div>
           ))}
           {/* Header */}
-
-          {credit.slice(0, 9).map((cast, i) => (
-            <div key={i}>
-              <ul className="actors-list">
-                <li className="actors-card">
-                  <img alt="actor" src={getImageCast(cast.profile_path)} />
-                  <p>{cast.name}</p>
-                  <p>{cast.character}</p>
-                </li>
-              </ul>
+          <div className="movie-details__container">
+            <div className="movie-details__left">
+              {credit.slice(0, 9).map((cast, i) => (
+                <div key={i}>
+                  <ul className="actors-list">
+                    <li className="actors-card">
+                      <img alt="actor" className="actor-image" src={getImageCast(cast.profile_path)} />
+                      <p>{cast.name}</p>
+                      <p>{cast.character}</p>
+                    </li>
+                  </ul>
+                </div>
+              ))}
             </div>
-          ))}
+            <div className="movie-details__right">
+            
+            </div>
+          </div>
 
         </div>
       ))}

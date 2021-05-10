@@ -7,3 +7,27 @@
   display: flex;
   padding: 30px 40px;
 }
+
+.movie-details__container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+}
+
+.movie-details__left {
+  display: flex;
+  flex-wrap: nowrap;
+  width: calc(85% - 24px);
+  margin: 12px;
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+
+.actors-card {
+  list-style: none;
+}
+
+.actor-image {
+  width: 120px;
+}
