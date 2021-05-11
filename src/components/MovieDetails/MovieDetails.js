@@ -11,7 +11,6 @@ import { useParams } from "react-router-dom";
 import 'react-circular-progressbar/dist/styles.css';
 
 import "../MovieDetails/MovieDetails.scss";
-import { lightGreen } from '@material-ui/core/colors';
 
 const api_key  = "e68f0e35dcc5a1bd27bfaedc41d3c894";
 const BASE_URL = "https://api.themoviedb.org/3";
@@ -21,7 +20,7 @@ const getImageBackdrop = (path) => `https://image.tmdb.org/t/p/original/${path}`
 const getImageCast = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 
 
-const useStyles = makeStyles((theme) => ({ 
+const useStyles = makeStyles(() => ({ 
   header: {
     backgroundPosition: "right -200px top",
     backgroundSize: "cover",
@@ -55,6 +54,7 @@ function MovieDetails() {
   const [image, setImage] = useState([]);
   const [credit, setCredit] = useState([]);
   const [social, setSocial] = useState([]);
+  const [review, setReview] = useState([]);
 
   const { movie_id } = useParams();
 
@@ -63,6 +63,7 @@ function MovieDetails() {
   const getImages = api.get(`/movie/${movie_id}/images`, { params: { api_key } });
   const getCredits = api.get(`/movie/${movie_id}/credits`, { params: { api_key } });
   const getSocials = api.get(`/movie/${movie_id}/external_ids`, { params: { api_key } });
+  const getReviews = api.get(`/movie/${movie_id}/reviews`, { params: { api_key } });
 
 
   useEffect(() => {
@@ -83,6 +84,11 @@ function MovieDetails() {
     getSocials.then(res => {
       console.log("socials", res.data)
       setSocial([res.data])
+    })
+
+    getReviews.then(res => {
+      console.log("reviews", res.data.results)
+      setReview(res.data.results)
     })
   }, []);
 
@@ -133,18 +139,27 @@ function MovieDetails() {
           {/* Header */}
           <div className="movie-details__container">
             <div className="movie-details__left">
-              <h4>Top Billed Cast</h4>
-              <section className="actors-container">
-                <ul className="actors-list">
-                  {credit.slice(0, 9).map((cast, i) => (
-                    <li className="actors-card" key={i}>
-                      <img alt="actor" className="actor-image" src={getImageCast(cast.profile_path)} />
-                      <p>{cast.name}</p>
-                      <p>{cast.character}</p>
-                    </li>
+                <h4>Top Billed Cast</h4>
+                <section className="actors-container">
+                  <ul className="actors-list">
+                    {credit.slice(0, 9).map((cast, i) => (
+                      <li className="actors-card" key={i}>
+                        <img alt="actor" className="actor-image" src={getImageCast(cast.profile_path)} />
+                        <p>{cast.name}</p>
+                        <p>{cast.character}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+                <h4>Reviews</h4>
+                <section className="reviwes-container">
+                  {review.map((r, i) => (
+                    <div key={i}>
+                      <p>{r.author}</p>
+                      <p>{r.content}</p>
+                    </div>
                   ))}
-                </ul>
-              </section>
+                </section>
             </div>
             
             <div className="movie-details__right">
