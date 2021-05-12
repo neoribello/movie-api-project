@@ -56,6 +56,8 @@ function MovieDetails() {
   const [social, setSocial] = useState([]);
   const [review, setReview] = useState([]);
 
+  const [showLess, setShowLess] = useState(true);
+
   const { movie_id } = useParams();
 
   const api = axios.create({ baseURL: BASE_URL });
@@ -91,6 +93,15 @@ function MovieDetails() {
       setReview(res.data.results)
     })
   }, []);
+
+
+  const lessText = review.forEach(element => {
+    if (element.content < 20) {
+      return <p>{element.content}</p>
+    }
+  });
+
+  console.log("lessText", lessText)
 
   const classes = useStyles();
 
@@ -153,10 +164,20 @@ function MovieDetails() {
                 </section>
                 <h4>Reviews</h4>
                 <section className="reviwes-container">
-                  {review.map((r, i) => (
+                  {review.slice(0, 1).map((r, i) => (
                     <div key={i}>
                       <p>{r.author}</p>
-                      <p>{r.content}</p>
+                      <div>
+                        <p>{ showLess ? `${r.content.slice(0, 600)}...` : r.content }
+                          <a
+                            href="javascript:void(0)"
+                            style={{ color: "blue", cursor: "pointer" }}
+                            onClick={() => setShowLess(!showLess)}
+                          >
+                            View {showLess ? "More" : "Less"}
+                          </a>
+                        </p>
+                      </div>
                     </div>
                   ))}
                 </section>
