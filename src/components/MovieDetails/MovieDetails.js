@@ -55,7 +55,6 @@ function MovieDetails() {
   const [credit, setCredit] = useState([]);
   const [social, setSocial] = useState([]);
   const [review, setReview] = useState([]);
-
   const [showLess, setShowLess] = useState(true);
 
   const { movie_id } = useParams();
@@ -93,22 +92,16 @@ function MovieDetails() {
       setReview(res.data.results)
     })
   }, []);
-
-
-  const lessText = review.forEach(element => {
-    if (element.content < 20) {
-      return <p>{element.content}</p>
-    }
-  });
-
-  console.log("lessText", lessText)
+  
+  const handleReview = (reviewID) => {
+    console.log("review item", reviewID)
+  };
 
   const classes = useStyles();
 
   const getColour = (r) => {
     return r > 5.0 ? "green" : r < 5.0 ? "red" : "white";
   }
-
 
   return (
     <div>
@@ -164,15 +157,13 @@ function MovieDetails() {
                 </section>
                 <h4>Reviews</h4>
                 <section className="reviwes-container">
-                  {review.slice(0, 1).map((r, i) => (
+                  {review.map((r, i) => (
                     <div key={i}>
                       <p>{r.author}</p>
                       <div>
-                        <p>{ showLess ? `${r.content.slice(0, 600)}...` : r.content }
-                          <a
-                            href="javascript:void(0)"
-                            style={{ color: "blue", cursor: "pointer" }}
-                            onClick={() => setShowLess(!showLess)}
+                        <p>{ showLess ? `${r.content.slice(0, 350)}...` : r.content }
+                          <a style={{ color: "blue", cursor: "pointer" }}
+                            onClick={() => { setShowLess(!showLess); handleReview(r.id)}}
                           >
                             View {showLess ? "More" : "Less"}
                           </a>
