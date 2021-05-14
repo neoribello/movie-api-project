@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from "react";
+import moment from 'moment';
 
 import FacebookIcon from '@material-ui/icons/Facebook';
 import TwitterIcon from '@material-ui/icons/Twitter';
@@ -65,6 +66,7 @@ function MovieDetails() {
   const getCredits = api.get(`/movie/${movie_id}/credits`, { params: { api_key } });
   const getSocials = api.get(`/movie/${movie_id}/external_ids`, { params: { api_key } });
   const getReviews = api.get(`/movie/${movie_id}/reviews`, { params: { api_key } });
+  const getCertification = api.get(`/certification/movie/list`, { params: { api_key } });
 
 
   useEffect(() => {
@@ -78,7 +80,7 @@ function MovieDetails() {
     })
 
     getCredits.then(res => {
-      console.log("credits", res.data.cast)
+      console.log("credits", res.data)
       setCredit(res.data.cast)
     })
 
@@ -91,6 +93,7 @@ function MovieDetails() {
       console.log("reviews", res.data.results)
       setReview(res.data.results)
     })
+
   }, []);
   
   const handleReview = (reviewID) => {
@@ -120,20 +123,27 @@ function MovieDetails() {
               <div className="header-contents__container">
                 <img className="header-contents__image" src={getImagePoster(item.poster_path)} alt="movie-poster" />
                 <div className="header-contents__text">
-                  <h1>{item.title}</h1>
+                  <div className="header-contents__title">
+                    <h1>{item.title}
+                      <span> {moment(item.release_date).format("YYYY")}</span>
+                    </h1>
+                  </div>
+                  <div className="header-contents__facts">
+                      <CircularProgressbar
+                        className={classes.voteBar}
+                        value={item.vote_average * 10}
+                        text={`${item.vote_average * 10}%`}
+                        strokeWidth={10}
+                        styles = {buildStyles({
+                          textColor: "white",
+                          pathColor: getColour(Number(item.vote_average)),
+                          }
+                        )}
+                      />
+                      <p>{moment(item.release_date).format("L")}</p>
+                    </div>
 
-                  <CircularProgressbar
-                    className={classes.voteBar}
-                    value={item.vote_average * 10}
-                    text={`${item.vote_average * 10}%`}
-                    strokeWidth={10}
-                    styles = {buildStyles({
-                      textColor: "white",
-                      pathColor: getColour(Number(item.vote_average)),
-                      }
-                    )}
-                  />
-                  <p>{item.tagline}</p>
+                  <h4>Overview</h4>
                   <p>{item.overview}</p>
                 </div>
               </div>

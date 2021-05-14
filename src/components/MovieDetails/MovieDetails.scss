@@ -1,7 +1,20 @@
 @import '../../App.scss';
 
 .header-contents__text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  flex-direction: column;
+  align-content: center;
+  box-sizing: border-box;
   color: white;
+  padding-left: 40px;
+  justify-content: center;
+}
+
+.header-contents__facts {
+  display: flex;
+  flex-direction: row;
 }
 
 .header-contents__container {
