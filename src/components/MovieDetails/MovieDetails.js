@@ -80,8 +80,8 @@ function MovieDetails() {
     })
 
     getCredits.then(res => {
-      console.log("credits", res.data)
-      setCredit(res.data.cast)
+      console.log("credits",res.data.cast, res.data.crew)
+      setCredit(res.data.cast, res.data.crew)
     })
 
     getSocials.then(res => {
