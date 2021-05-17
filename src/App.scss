@@ -1,2 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;700&display=swap');
+
+$p: 1em;
 $--lightGrey: rgba(227, 227, 227, 1);
 $--imageBorderRadius: 8px;
+
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+h1, h2, h3, h4, h5, p {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h3 {
+  font-weight: 700;
+  font-size: 1.3em;
+}
+
+h4 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+p {
+  font-size: $p;
+}

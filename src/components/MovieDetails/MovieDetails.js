@@ -5,6 +5,7 @@ import moment from 'moment';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import InstagramIcon from '@material-ui/icons/Instagram';
+import LinkIcon from '@material-ui/icons/Link';
 
 import { makeStyles } from "@material-ui/core/styles";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
@@ -44,8 +45,8 @@ const useStyles = makeStyles(() => ({
   },
 
   largeIcon: {
-    width: 30,
-    height: 30,
+    width: 25,
+    height: 25,
   }
 
 }));
@@ -66,7 +67,6 @@ function MovieDetails() {
   const getCredits = api.get(`/movie/${movie_id}/credits`, { params: { api_key } });
   const getSocials = api.get(`/movie/${movie_id}/external_ids`, { params: { api_key } });
   const getReviews = api.get(`/movie/${movie_id}/reviews`, { params: { api_key } });
-  const getCertification = api.get(`/certification/movie/list`, { params: { api_key } });
 
 
   useEffect(() => {
@@ -103,7 +103,25 @@ function MovieDetails() {
   const classes = useStyles();
 
   const getColour = (r) => {
-    return r > 5.0 ? "green" : r < 5.0 ? "red" : "white";
+    return r > 5.0 ? "#21d07a" : r < 5.0 ? "red" : "white";
+  }
+
+  const changeLanguage = (lang) => {
+    if (lang === 'en') {
+      return 'English';
+    }
+
+    if (lang === 'ja') {
+      return 'Japanese';
+    }
+
+    if (lang === 'fr') {
+      return 'French';
+    }
+
+    if (lang === 'ko') {
+      return 'Korean';
+    }
   }
 
   return (
@@ -127,8 +145,9 @@ function MovieDetails() {
                     <h1>{item.title}
                       <span> {moment(item.release_date).format("YYYY")}</span>
                     </h1>
+                    <p>{moment(item.release_date).format("L")}</p>
                   </div>
-                  <div className="header-contents__facts">
+                    <div className="header-contents__facts">
                       <CircularProgressbar
                         className={classes.voteBar}
                         value={item.vote_average * 10}
@@ -137,13 +156,14 @@ function MovieDetails() {
                         styles = {buildStyles({
                           textColor: "white",
                           pathColor: getColour(Number(item.vote_average)),
+                          trailColor: '#204529',
                           }
                         )}
                       />
-                      <p>{moment(item.release_date).format("L")}</p>
+                      <div class="user-score">User <br /> Score</div>
                     </div>
 
-                  <h4>Overview</h4>
+                  <h3>Overview</h3>
                   <p>{item.overview}</p>
                 </div>
               </div>
@@ -167,7 +187,7 @@ function MovieDetails() {
                 </section>
                 <h4>Reviews</h4>
                 <section className="reviwes-container">
-                  {review.map((r, i) => (
+                  {review.slice(0, 1).map((r, i) => (
                     <div key={i}>
                       <p>{r.author}</p>
                       <div>
@@ -209,27 +229,35 @@ function MovieDetails() {
                             />
                         </a>
                       </li>
+
+                      <li className="social-link__item homepage">
+                        <a className="social-link" rel="noreferrer" target="_blank" href={`${item.homepage}`}>
+                            <LinkIcon
+                              className={classes.largeIcon} 
+                            />
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 ))}
-              <p>
+              <p className="status">
                 <strong>Status</strong>
                 {item.status}
               </p>
 
-              <p>
+              <p className="status">
                 <strong>Original Language</strong>
-                {item.original_language}
+                {changeLanguage(item.original_language)}
               </p>
 
-              <p>
+              <p className="status">
                 <strong>Budget</strong>
-                {item.budget}
+                ${new Intl.NumberFormat().format(item.budget)}
               </p>
 
-              <p>
+              <p className="status">
                 <strong>Revenue</strong>
-                {item.revenue}
+                ${new Intl.NumberFormat().format(item.revenue)}
               </p>
 
             </div>
