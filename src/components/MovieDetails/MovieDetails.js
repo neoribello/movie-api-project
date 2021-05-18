@@ -91,10 +91,14 @@ function MovieDetails() {
 
     getReviews.then(res => {
       console.log("reviews", res.data.results)
+      if(res.data.results.length === 0) {
+        console.log("no reviews")
+      }
       setReview(res.data.results)
     })
 
   }, []);
+
   
   const handleReview = (reviewID) => {
     console.log("review item", reviewID)
@@ -186,12 +190,13 @@ function MovieDetails() {
                   </ul>
                 </section>
                 <h4>Reviews</h4>
-                <section className="reviwes-container">
+
+                <section className="reviws-container">
                   {review.slice(0, 1).map((r, i) => (
-                    <div key={i}>
-                      <p>{r.author}</p>
+                    <div key={i} className="reviews-content">
+                      <p>A review by {r.author}</p>
                       <div>
-                        <p>{ showLess ? `${r.content.slice(0, 350)}...` : r.content }
+                        <p>{ showLess ? `${r.content.slice(0, 300)}... ` : r.content }
                           <a style={{ color: "blue", cursor: "pointer" }}
                             onClick={() => { setShowLess(!showLess); handleReview(r.id)}}
                           >
