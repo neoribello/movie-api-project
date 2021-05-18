@@ -57,7 +57,6 @@ function MovieDetails() {
   const [credit, setCredit] = useState([]);
   const [social, setSocial] = useState([]);
   const [review, setReview] = useState([]);
-  const [showLess, setShowLess] = useState(true);
 
   const { movie_id } = useParams();
 
@@ -91,18 +90,11 @@ function MovieDetails() {
 
     getReviews.then(res => {
       console.log("reviews", res.data.results)
-      if(res.data.results.length === 0) {
-        console.log("no reviews")
-      }
       setReview(res.data.results)
     })
 
   }, []);
 
-  
-  const handleReview = (reviewID) => {
-    console.log("review item", reviewID)
-  };
 
   const classes = useStyles();
 
@@ -127,6 +119,7 @@ function MovieDetails() {
       return 'Korean';
     }
   }
+
 
   return (
     <div>
@@ -189,23 +182,22 @@ function MovieDetails() {
                     ))}
                   </ul>
                 </section>
-                <h4>Reviews</h4>
-
-                <section className="reviws-container">
-                  {review.slice(0, 1).map((r, i) => (
-                    <div key={i} className="reviews-content">
+                <h4>
+                  Reviews
+                </h4>
+                  <section className="reviws-container">
+                  {review.length > 0 ? (
+                    review.slice(0, 1).map((r, i) => (
+                      <div key={i} className="reviews-content">
                       <p>A review by {r.author}</p>
                       <div>
-                        <p>{ showLess ? `${r.content.slice(0, 300)}... ` : r.content }
-                          <a style={{ color: "blue", cursor: "pointer" }}
-                            onClick={() => { setShowLess(!showLess); handleReview(r.id)}}
-                          >
-                            View {showLess ? "More" : "Less"}
-                          </a>
-                        </p>
+                        <p>{r.content}</p>
                       </div>
                     </div>
-                  ))}
+                    ))
+                  ) : (
+                    <p>We don't have any reviews for {item.title}</p>
+                  )}
                 </section>
             </div>
             
