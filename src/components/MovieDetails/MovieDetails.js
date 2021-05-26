@@ -13,13 +13,20 @@ import { useParams } from "react-router-dom";
 import 'react-circular-progressbar/dist/styles.css';
 
 import "../MovieDetails/MovieDetails.scss";
+import noImg from "../../Assets/no-image.png"
 
 const api_key  = "e68f0e35dcc5a1bd27bfaedc41d3c894";
 const BASE_URL = "https://api.themoviedb.org/3";
 
 const getImagePoster = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 const getImageBackdrop = (path) => `https://image.tmdb.org/t/p/original/${path}`;
-const getImageCast = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
+const getImageCast = (path) => {
+  if(null === path) {
+    return `${noImg}`
+  } else {
+    return `https://image.tmdb.org/t/p/w300/${path}`
+  }
+}
 
 
 const useStyles = makeStyles(() => ({ 
@@ -57,6 +64,8 @@ function MovieDetails() {
   const [credit, setCredit] = useState([]);
   const [social, setSocial] = useState([]);
   const [review, setReview] = useState([]);
+  const [showLess, setShowLess] = useState(false);
+  
 
   const { movie_id } = useParams();
 
@@ -94,6 +103,10 @@ function MovieDetails() {
     })
 
   }, []);
+
+  const handleView = (e, reviewId) => {
+    
+  }
 
 
   const classes = useStyles();
@@ -187,16 +200,22 @@ function MovieDetails() {
                 </h4>
                   <section className="reviws-container">
                   {review.length > 0 ? (
-                    review.slice(0, 1).map((r, i) => (
+                    review.map((r, i) => (
                       <div key={i} className="reviews-content">
                       <p>A review by {r.author}</p>
                       <div>
-                        <p>{r.content}</p>
+                      <p>{ showLess ? `${r.content.slice(0, 250)}...` : r.content }</p>
+                        <a
+                          style={{ color: "blue", cursor: "pointer" }}
+                          onClick={(e) => { setShowLess(!showLess); handleView(r.id)}}
+                        >
+                          &nbsp;View {showLess ? "More" : "Less"}
+                        </a>
                       </div>
                     </div>
                     ))
                   ) : (
-                    <p>We don't have any reviews for {item.title}</p>
+                    <p className="no-review">We don't have any reviews for {item.title}</p>
                   )}
                 </section>
             </div>
