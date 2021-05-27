@@ -133,12 +133,19 @@ function MovieDetails() {
     }
   }
 
+  const changeZero = (check) => {
+    if (check === 0) {
+      return '-';
+    } else {
+      return `$${new Intl.NumberFormat().format(check)}`
+    }
+  }
+
 
   return (
     <div>
       {detail.map((item, i) => (
         <div key={i}>
-
           {/* Header */}
           {image.map((elem, i) => (
             <div key={i} style={{
@@ -153,7 +160,7 @@ function MovieDetails() {
                 <div className="header-contents__text">
                   <div className="header-contents__title">
                     <h1>{item.title}
-                      <span> {moment(item.release_date).format("YYYY")}</span>
+                      <span>({moment(item.release_date).format("YYYY")})</span>
                     </h1>
                     <p>{moment(item.release_date).format("L")}</p>
                   </div>
@@ -268,12 +275,12 @@ function MovieDetails() {
 
               <p className="status">
                 <strong>Budget</strong>
-                ${new Intl.NumberFormat().format(item.budget)}
+                {changeZero(item.budget)}
               </p>
 
               <p className="status">
                 <strong>Revenue</strong>
-                ${new Intl.NumberFormat().format(item.revenue)}
+                {changeZero(item.revenue)}
               </p>
 
             </div>
