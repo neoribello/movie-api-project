@@ -64,7 +64,7 @@ function MovieDetails() {
   const [credit, setCredit] = useState([]);
   const [social, setSocial] = useState([]);
   const [review, setReview] = useState([]);
-  const [showLess, setShowLess] = useState(false);
+  const [showLess, setShowLess] = useState(true);
   
 
   const { movie_id } = useParams();
@@ -104,15 +104,22 @@ function MovieDetails() {
 
   }, []);
 
-  const handleView = (e, reviewId) => {
-    
+  const handleView = (reviewId, e) => {
+    console.log("reviewid: ", reviewId)
+    setShowLess(!showLess, reviewId)
   }
 
 
   const classes = useStyles();
 
   const getColour = (r) => {
-    return r > 5.0 ? "#21d07a" : r < 5.0 ? "red" : "white";
+    if(r > 5.0) {
+      return "#21d07a";
+    }
+
+    if (r < 5.0) {
+      return "red";
+    }
   }
 
   const changeLanguage = (lang) => {
@@ -214,7 +221,8 @@ function MovieDetails() {
                       <p>{ showLess ? `${r.content.slice(0, 250)}...` : r.content }</p>
                         <a
                           style={{ color: "blue", cursor: "pointer" }}
-                          onClick={(e) => { setShowLess(!showLess); handleView(r.id)}}
+                          onClick={(e) => { handleView(r.id)}}
+                          id={r.id}
                         >
                           &nbsp;View {showLess ? "More" : "Less"}
                         </a>
