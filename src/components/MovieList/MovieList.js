@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {  useHistory } from "react-router-dom";
 import axios from "axios";
-import { Container, TextField, Button, Link } from "@material-ui/core"
+import { TextField, Button, Link } from "@material-ui/core"
 
 //css
 
@@ -55,7 +55,7 @@ function MovieList() {
 
 
   return (
-    <Container maxWidth="lg">
+    <div>
       <form onSubmit={handleOnSubmit}>
         <TextField
           className="search"
@@ -69,8 +69,8 @@ function MovieList() {
       </form>
       
       <ul className="movielist-container">
-        {data.map((movie) => (
-          <li onClick={() => handleClick(movie.id)} className="movielist-items">
+        {data.map((movie, i) => (
+          <li key={i} onClick={() => handleClick(movie.id)} className="movielist-items">
             <img alt="movie-poster" src={getImage(movie.poster_path)} />
             <p>{movie.original_title}</p>
             <p>{movie.vote_average}</p>
@@ -84,7 +84,7 @@ function MovieList() {
           </li>
         ))}
       </ul>
-    </Container>
+      </div>
   );
 }
 

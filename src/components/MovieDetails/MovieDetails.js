@@ -214,7 +214,7 @@ function MovieDetails() {
                 </h4>
                   <section className="reviws-container">
                   {review.length > 0 ? (
-                    review.map((r, i) => (
+                    review.slice(0, 1).map((r, i) => (
                       <div key={i} className="reviews-content">
                       <p>A review by {r.author}</p>
                       <div>
