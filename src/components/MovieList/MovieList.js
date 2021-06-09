@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import moment from 'moment';
 import {  useHistory } from "react-router-dom";
 import axios from "axios";
 import { TextField, Button, Link } from "@material-ui/core"
@@ -43,11 +44,11 @@ function MovieList() {
   const useStyles = makeStyles(() => ({ 
   
     voteBar: {
-      width: "70px",
-      height: "70px",
+      width: "40px",
+      height: "40px",
       background: "#081c22",
       borderRadius: "100%",
-      padding: "5px"
+      padding: "3px"
     },
   
   }));
@@ -98,26 +99,21 @@ function MovieList() {
         {data.map((movie, i) => (
           <li key={i} onClick={() => handleClick(movie.id)} className="movielist-items">
             <img alt="movie-poster" src={getImage(movie.poster_path)} />
-            <p>{movie.original_title}</p>
             <CircularProgressbar
-                        className={classes.voteBar}
-                        value={movie.vote_average * 10}
-                        text={`${movie.vote_average * 10}%`}
-                        strokeWidth={10}
-                        styles = {buildStyles({
-                          textColor: "white",
-                          pathColor: getColour(Number(movie.vote_average)),
-                          trailColor: '#204529',
-                          }
-                        )}
-                      />
-            <Link
-              component="button"
-              variant="body2"
-              color="primary"
-            >
-              Details
-            </Link>
+              className={classes.voteBar}
+              value={movie.vote_average * 10}
+              text={`${movie.vote_average * 10}%`}
+              strokeWidth={10}
+              styles = {buildStyles({
+                textColor: "white",
+                pathColor: getColour(Number(movie.vote_average)),
+                trailColor: '#204529',
+                textSize: "30"
+                }
+              )}
+            />
+            <p>{movie.original_title}</p>
+            <p>{moment(movie.release_date).format('LL')}</p>
           </li>
         ))}
       </ul>
