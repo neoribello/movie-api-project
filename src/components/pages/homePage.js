@@ -8,8 +8,8 @@ class HomePage extends Component {
     return (
     <Container maxWidth="lg">
         <div className="homepage-container">
-          <MovieFilter />
-          <MovieList />
+          <MovieFilter className="movie-left"/>
+          <MovieList className="movie-right"/>
         </div>
       </Container>
     );

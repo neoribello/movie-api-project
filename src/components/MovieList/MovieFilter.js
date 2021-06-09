@@ -25,6 +25,7 @@ function MovieFilter(props) {
 
   const api = axios.create({ baseURL: BASE_URL });
   const getFilter = api.get("/discover/movie", { params: { api_key } });
+  const filterMovies = "https://api.themoviedb.org/3/discover/movie?&api_key=e68f0e35dcc5a1bd27bfaedc41d3c894&query=";
 
   useEffect(() => {
     getFilter.then(response => {
@@ -48,7 +49,7 @@ function MovieFilter(props) {
         </div>
 
         <FormControl variant="filled" className={classes.formControl}>
-        <InputLabel id="demo-simple-select-filled-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-filled-label">Sort</InputLabel>
         <Select
           labelId="demo-simple-select-filled-label"
           id="demo-simple-select-filled"
