@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import {  useHistory } from "react-router-dom";
 import axios from "axios";
 import { TextField, Button, Link } from "@material-ui/core"
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import { makeStyles } from "@material-ui/core/styles";
 
 //css
 
@@ -38,6 +40,18 @@ function MovieList() {
     setSearchTerm(e.target.value);
   }
 
+  const useStyles = makeStyles(() => ({ 
+  
+    voteBar: {
+      width: "70px",
+      height: "70px",
+      background: "#081c22",
+      borderRadius: "100%",
+      padding: "5px"
+    },
+  
+  }));
+
   //Shows initial 
   const history = useHistory();
   
@@ -53,7 +67,19 @@ function MovieList() {
     history.push(`/movie/${movieId}`)
   };
 
+  const classes = useStyles();
 
+  const getColour = (r) => {
+    if(r > 5.0) {
+      return "#21d07a";
+    }
+
+    if (r < 5.0) {
+      return "red";
+    }
+  }
+
+  
   return (
     <div>
       <form onSubmit={handleOnSubmit}>
@@ -73,7 +99,18 @@ function MovieList() {
           <li key={i} onClick={() => handleClick(movie.id)} className="movielist-items">
             <img alt="movie-poster" src={getImage(movie.poster_path)} />
             <p>{movie.original_title}</p>
-            <p>{movie.vote_average}</p>
+            <CircularProgressbar
+                        className={classes.voteBar}
+                        value={movie.vote_average * 10}
+                        text={`${movie.vote_average * 10}%`}
+                        strokeWidth={10}
+                        styles = {buildStyles({
+                          textColor: "white",
+                          pathColor: getColour(Number(movie.vote_average)),
+                          trailColor: '#204529',
+                          }
+                        )}
+                      />
             <Link
               component="button"
               variant="body2"

@@ -17,10 +17,6 @@ function MovieFilter(props) {
     });
   }, []);
 
-  const handleFilter = (e) => {
-    e.preventDefault();
-  }
-
   return (
     <div>
       <div className="movielist-filter">
