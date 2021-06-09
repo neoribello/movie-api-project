@@ -6,7 +6,9 @@ import { TextField, Button, Link } from "@material-ui/core"
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { makeStyles } from "@material-ui/core/styles";
 
+
 //css
+import "../MovieList/MovieList.scss";
 
 const api_key  = "e68f0e35dcc5a1bd27bfaedc41d3c894";
 const BASE_URL = "https://api.themoviedb.org/3";
@@ -99,21 +101,23 @@ function MovieList() {
         {data.map((movie, i) => (
           <li key={i} onClick={() => handleClick(movie.id)} className="movielist-items">
             <img alt="movie-poster" src={getImage(movie.poster_path)} />
-            <CircularProgressbar
-              className={classes.voteBar}
-              value={movie.vote_average * 10}
-              text={`${movie.vote_average * 10}%`}
-              strokeWidth={10}
-              styles = {buildStyles({
-                textColor: "white",
-                pathColor: getColour(Number(movie.vote_average)),
-                trailColor: '#204529',
-                textSize: "30"
-                }
-              )}
-            />
-            <p>{movie.original_title}</p>
-            <p>{moment(movie.release_date).format('LL')}</p>
+            <div className="movielist-text">
+              <CircularProgressbar
+                className={classes.voteBar}
+                value={movie.vote_average * 10}
+                text={`${movie.vote_average * 10}%`}
+                strokeWidth={10}
+                styles = {buildStyles({
+                  textColor: "white",
+                  pathColor: getColour(Number(movie.vote_average)),
+                  trailColor: '#204529',
+                  textSize: "30"
+                  }
+                )}
+              />
+              <p className="move-title">{movie.original_title}</p>
+              <p>{moment(movie.release_date).format('LL')}</p>
+            </div>
           </li>
         ))}
       </ul>
