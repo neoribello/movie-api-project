@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 //css
 import "../MovieList/MovieList.scss";
 
-const api_key  = "e68f0e35dcc5a1bd27bfaedc41d3c894";
+const api_key  = process.env.REACT_APP_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 
@@ -21,7 +21,7 @@ function MovieList() {
 
   const api = axios.create({ baseURL: BASE_URL });
   const getPopular = api.get("movie/popular", { params: { api_key } });
-  const searchMovies = "https://api.themoviedb.org/3/search/movie?&api_key=e68f0e35dcc5a1bd27bfaedc41d3c894&query=";
+  const searchMovies = `https://api.themoviedb.org/3/search/movie?&api_key=${api_key}&query=`;
 
   console.log("data: ", data)
   const handleOnSubmit = (e) => {

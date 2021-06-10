@@ -24,7 +24,7 @@ function MovieFilter(props) {
   const [data, setData] = useState([]);
 
   const api = axios.create({ baseURL: BASE_URL });
-  const getFilter = api.get("/discover/movie", { params: { api_key } });
+  const getFilter = api.get("/discover/movie?sort_by=popularity.desc&page=2", { params: { api_key } });
   const filterMovies = "https://api.themoviedb.org/3/discover/movie?&api_key=e68f0e35dcc5a1bd27bfaedc41d3c894&query=";
 
   useEffect(() => {

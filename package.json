@@ -12,6 +12,7 @@
     "axios": "^0.21.0",
     "colorthief": "^2.3.2",
     "dateformat": "^4.5.1",
+    "dotenv": "^10.0.0",
     "eslint": "^7.25.0",
     "gulp-changed": "^4.0.2",
     "gulp-clean-css": "^4.3.0",
