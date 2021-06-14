@@ -18,9 +18,10 @@ function MovieList() {
 
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const api = axios.create({ baseURL: BASE_URL });
-  const getPopular = api.get("movie/popular", { params: { api_key } });
+  const getPopular = api.get(`movie/popular?api_key=${api_key}&page=${currentPage}`, { params: { api_key } });
   const searchMovies = `https://api.themoviedb.org/3/search/movie?&api_key=${api_key}&query=`;
 
   console.log("data: ", data)
@@ -69,6 +70,10 @@ function MovieList() {
     console.log("movie item", movieId)
     history.push(`/movie/${movieId}`)
   };
+
+  const handlePagination = () => {
+    
+  }
 
   const classes = useStyles();
 
@@ -121,7 +126,8 @@ function MovieList() {
           </li>
         ))}
       </ul>
-      </div>
+      <Button onClick={handlePagination}>Search</Button>
+    </div>
   );
 }
 
