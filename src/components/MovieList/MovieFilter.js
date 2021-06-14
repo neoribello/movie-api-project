@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import {  useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-const api_key  = "e68f0e35dcc5a1bd27bfaedc41d3c894";
+const api_key  = process.env.REACT_APP_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 
 const useStyles = makeStyles((theme) => ({
@@ -25,7 +25,7 @@ function MovieFilter(props) {
 
   const api = axios.create({ baseURL: BASE_URL });
   const getFilter = api.get("/discover/movie?sort_by=popularity.desc&page=2", { params: { api_key } });
-  const filterMovies = "https://api.themoviedb.org/3/discover/movie?&api_key=e68f0e35dcc5a1bd27bfaedc41d3c894&query=";
+  const filterMovies = `https://api.themoviedb.org/3/discover/movie?&api_key=${api_key}&query=`;
 
   useEffect(() => {
     getFilter.then(response => {
@@ -34,12 +34,14 @@ function MovieFilter(props) {
     });
   }, []);
 
-  const classes = useStyles();
-  const [age, setAge] = React.useState('');
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const history = useHistory();
+  
+  const handleClick = (movieId) => {
+    console.log("movie item", movieId)
+    history.push(`/movie/${movieId}`)
   };
+
+  const classes = useStyles();
 
   return (
     <div>
@@ -53,8 +55,6 @@ function MovieFilter(props) {
         <Select
           labelId="demo-simple-select-filled-label"
           id="demo-simple-select-filled"
-          value={age}
-          onChange={handleChange}
         >
           <MenuItem value="">
             <em>None</em>
