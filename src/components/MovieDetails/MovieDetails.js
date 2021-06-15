@@ -113,12 +113,16 @@ function MovieDetails() {
   const classes = useStyles();
 
   const getColour = (r) => {
-    if(r > 5.0) {
+    if(r > 7.5) {
       return "#21d07a";
     }
 
     if (r < 5.0) {
       return "red";
+    }
+
+    if(r > 5.1 || r < 7.5) {
+      return "yellow";
     }
   }
 
