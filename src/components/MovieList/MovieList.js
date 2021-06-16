@@ -5,6 +5,7 @@ import axios from "axios";
 import { TextField, Button, Link } from "@material-ui/core"
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { makeStyles } from "@material-ui/core/styles";
+import CustomPagination from "../Pagination/CustomPagination";
 
 
 //css
@@ -19,10 +20,20 @@ function MovieList() {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [numOfPages, setNumOfPages] = useState();
 
   const api = axios.create({ baseURL: BASE_URL });
   const getPopular = api.get(`movie/popular?api_key=${api_key}&page=${currentPage}`, { params: { api_key } });
-  const searchMovies = `https://api.themoviedb.org/3/search/movie?&api_key=${api_key}&query=`;
+  const searchMovies = `${BASE_URL}/search/movie?&api_key=${api_key}&query=`;
+
+  
+  useEffect(() => {
+    getPopular.then(response => {
+      setData(response.data.results);
+      setNumOfPages(response.data.total_pages)
+      console.log("response.data.total_pages", response.data.total_pages);
+    });
+  }, [currentPage]);
 
   console.log("data: ", data)
   const handleOnSubmit = (e) => {
@@ -58,13 +69,6 @@ function MovieList() {
 
   //Shows initial 
   const history = useHistory();
-  
-  useEffect(() => {
-    getPopular.then(response => {
-      setData(response.data.results);
-      console.log("response.data.results", response.data.results);
-    });
-  }, []);
 
   const handleClick = (movieId) => {
     console.log("movie item", movieId)
@@ -130,7 +134,9 @@ function MovieList() {
           </li>
         ))}
       </ul>
-      <Button onClick={handlePagination}>Search</Button>
+      {numOfPages > 1 && (
+        <CustomPagination setCurrentPage={setCurrentPage} numOfPages={numOfPages} />
+      )}
     </div>
   );
 }
