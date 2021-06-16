@@ -62,7 +62,7 @@ function MovieList() {
   useEffect(() => {
     getPopular.then(response => {
       setData(response.data.results);
-      console.log(data);
+      console.log("response.data.results", response.data.results);
     });
   }, []);
 
