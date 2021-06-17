@@ -7,7 +7,6 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { makeStyles } from "@material-ui/core/styles";
 import CustomPagination from "../Pagination/CustomPagination";
 
-
 //css
 import "../MovieList/MovieList.scss";
 
