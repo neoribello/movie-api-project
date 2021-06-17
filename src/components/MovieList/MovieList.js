@@ -18,14 +18,11 @@ const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 function MovieList() {
 
   const [data, setData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [numOfPages, setNumOfPages] = useState();
 
   const api = axios.create({ baseURL: BASE_URL });
   const getPopular = api.get(`movie/popular?api_key=${api_key}&page=${currentPage}`, { params: { api_key } });
-  const searchMovies = `${BASE_URL}/search/movie?&api_key=${api_key}&query=`;
-
   
   useEffect(() => {
     getPopular.then(response => {
@@ -33,54 +30,14 @@ function MovieList() {
       setNumOfPages(response.data.total_pages)
       console.log("response.data.total_pages", response.data.total_pages);
     });
-  }, [currentPage]);
+  }, [currentPage, getPopular]);
 
-  console.log("data: ", data)
-  const handleOnSubmit = (e) => {
-    e.preventDefault();
-
-    if (searchTerm) {
-      fetch(searchMovies + searchTerm)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("search", data)
-        setData(data.results);
-      });
-
-      setSearchTerm("");
-    }
-  }
-
-  const handleonChange = (e) => {
-    setSearchTerm(e.target.value);
-  }
-
-  const useStyles = makeStyles(() => ({ 
-  
-    voteBar: {
-      width: "40px",
-      height: "40px",
-      background: "#081c22",
-      borderRadius: "100%",
-      padding: "3px"
-    },
-  
-  }));
-
-  //Shows initial 
   const history = useHistory();
-
   const handleClick = (movieId) => {
     console.log("movie item", movieId)
     history.push(`/movie/${movieId}`)
   };
-
-  const handlePagination = () => {
-    
-  }
-
-  const classes = useStyles();
-
+  
   const getColour = (r) => {
     if(r > 7.5) {
       return "#21d07a";
@@ -95,21 +52,19 @@ function MovieList() {
     }
   }
 
-  
+  const useStyles = makeStyles(() => ({ 
+    voteBar: {
+      width: "40px",
+      height: "40px",
+      background: "#081c22",
+      borderRadius: "100%",
+      padding: "3px"
+    },
+  }));
+  const classes = useStyles();
+
   return (
     <div>
-      <form onSubmit={handleOnSubmit}>
-        <TextField
-          className="search"
-          name="query"
-          type="text"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={handleonChange}>
-        </TextField>
-        <Button className="button" type="submit">Search</Button>
-      </form>
-      
       <ul className="movielist-container">
         {data.map((movie, i) => (
           <li key={i} onClick={() => handleClick(movie.id)} className="movielist-items">
