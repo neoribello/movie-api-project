@@ -20,11 +20,7 @@ const useStyles = makeStyles({
   });
 
 const navLinks = [
-    { title: `about us`, path: `/about-us` },
-    { title: `product`, path: `/product` },
-    { title: `blog`, path: `/blog` },
-    { title: `contact`, path: `/contact` },
-    { title: `faq`, path: `/faq` },
+    { title: `Search`, path: `/Search` },
 ]
 
 const Header = () => {

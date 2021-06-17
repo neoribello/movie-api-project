@@ -151,7 +151,7 @@ function MovieDetails() {
       return `$${new Intl.NumberFormat().format(check)}`
     }
   }
-  
+
   return (
     <div>
       {detail.map((item, i) => (
