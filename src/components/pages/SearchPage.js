@@ -5,6 +5,10 @@ import {  useHistory } from "react-router-dom";
 import { Container, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import CustomPagination from "../Pagination/CustomPagination";
+
+//css
+import "../MovieList/MovieList";
 
 const api_key  = process.env.REACT_APP_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
@@ -100,6 +104,10 @@ export default function SearchPage() {
         </div>
       </li>
     ))}
+    
+    {numOfPages > 1 && (
+          <CustomPagination setCurrentPage={setCurrentPage} numOfPages={numOfPages} />
+    )}
     </div>
   </Container>
   );

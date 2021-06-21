@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 
 const navLinks = [
     { title: `Home`, path: `/` },
-    { title: `Search`, path: `/Search` },
+    { title: `Search`, path: `/search` },
 ]
 
 const Header = () => {
