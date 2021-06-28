@@ -64,23 +64,23 @@ export default function SearchPage() {
 
   return (
   <Container maxWidth="lg">
-    <div className="searchpage-container">
-      <h1>Search Page</h1>
+  <h1>Search Page</h1>
 
-      <TextField
-        style={{ flex: 1 }}
-        className="searchBox"
-        label="Search"
-        variant="filled"
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <Button
-        onClick={getSearch}
-        variant="contained"
-        style={{ marginLeft: 10 }}
-      >
-        Search
-      </Button>
+  <TextField
+    style={{ flex: 1 }}
+    className="searchBox"
+    label="Search"
+    variant="filled"
+    onChange={(e) => setSearchTerm(e.target.value)}
+  />
+  <Button
+    onClick={getSearch}
+    variant="contained"
+    style={{ marginLeft: 10 }}
+  >
+    Search
+  </Button>
+    <div className="searchpage-container">
 
     {data.map((movie, i) => (
       <li key={i} onClick={() => handleClick(movie.id)} className="movielist-items">
