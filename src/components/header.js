@@ -1,55 +1,32 @@
-import React, {  Component } from "react";
-import { AppBar, Toolbar, IconButton, List, ListItem, ListItemText, Container } from "@material-ui/core"
-import { makeStyles } from "@material-ui/core/styles"
-import { Home } from "@material-ui/icons"
-
-const useStyles = makeStyles({
-    navbarDisplayFlex: {
-        display: `flex`,
-        justifyContent: `space-between`
-    },
-    navDisplayFlex: {
-        display: `flex`,
-        justifyContent: `space-between`
-    },
-    linkText: {
-        textDecoration: `none`,
-        textTransform: `uppercase`,
-        color: `white`
-    }
-  });
-
-const navLinks = [
-    { title: `Home`, path: `/` },
-    { title: `Search`, path: `/search` },
-]
+import React, { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
+import '../components/header.scss';
+import logo from '../Assets/logo-tmbd.svg'
 
 const Header = () => {
-  const classes = useStyles();
-  return (
-    <AppBar position="static">
-    <Container maxWidth="lg" className={classes.navbarDisplayFlex}>
-        <Toolbar>
-            <IconButton edge="start" color="inherit" aria-label="home">
-            <Home fontSize="large" />
-            </IconButton>
+	const [scroll, setScroll] = useState(false);
 
-            <List
-                component="nav"
-                aria-labelledby="main navigation"
-                className={classes.navDisplayFlex}
-            >
-                {navLinks.map(({ title, path }) => (
-                <a href={path} key={title} className={classes.linkText}  >
-                <ListItem button>
-                    <ListItemText primary={title} />
-                </ListItem>
-                </a>
-                ))}
-            </List>
-        </Toolbar>
-    </Container>
-    </AppBar>
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.addEventListener("scroll", () =>
+      setScroll(window.pageYOffset > 50)
+      );
+    }
+  }, []);
+  return (
+		<div className={`navigation ${scroll ? "scroll" : ""}`}>
+			<ul className="navigation-links__container">
+				<div className="navigation-links">
+					<img className="nav-logo" src={logo} alt="Logo"/>
+					<Link to='/'>
+						<li className="nav-link">Home</li>
+					</Link>
+					<Link to='/search'>
+						<li className="nav-link">Search</li>
+					</Link>
+				</div>
+			</ul>
+		</div>
   )
 }
 export default Header
