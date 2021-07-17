@@ -73,13 +73,6 @@ export default function SearchPage() {
     variant="filled"
     onChange={(e) => setSearchTerm(e.target.value)}
   />
-  <Button
-    onClick={getSearch}
-    variant="contained"
-    style={{ marginLeft: 10 }}
-  >
-    Search
-  </Button>
     <div className="searchpage-container">
 
     {data.map((movie, i) => (
