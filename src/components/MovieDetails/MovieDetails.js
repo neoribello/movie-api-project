@@ -222,13 +222,14 @@ function MovieDetails() {
                       <p>A review by {r.author}</p>
                       <div>
                       <p>{ showLess ? `${r.content.slice(0, 250)}...` : r.content }</p>
-                        <a
+                        <p
+                          className="reviews-button"
                           style={{ color: "blue", cursor: "pointer" }}
                           onClick={(e) => { handleView(r.id)}}
                           id={r.id}
                         >
                           &nbsp;View {showLess ? "More" : "Less"}
-                        </a>
+                        </p>
                       </div>
                     </div>
                     ))

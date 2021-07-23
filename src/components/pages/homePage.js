@@ -1,6 +1,5 @@
 import React from "react";
 import MovieList from '../MovieList/MovieList';
-import MovieFilter from '../MovieList/MovieFilter';
 import { Container } from "@material-ui/core"
 
 export default function HomePage() {

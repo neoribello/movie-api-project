@@ -2,17 +2,20 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import moment from 'moment';
 import {  useHistory } from "react-router-dom";
-import { Container, TextField, Button } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import CustomPagination from "../Pagination/CustomPagination";
+import SearchIcon from '@material-ui/icons/Search';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import getImageCast from "../../hooks/useNoImage";
 
 //css
+import "../MovieSearch/MovieSearch.scss";
 import "../MovieList/MovieList";
 
 const api_key  = process.env.REACT_APP_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
-const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 
 export default function SearchPage() {
   const [data, setData] = useState([]);
@@ -21,13 +24,13 @@ export default function SearchPage() {
   const [numOfPages, setNumOfPages] = useState();
   
   const api = axios.create({ baseURL: BASE_URL });
+  const getTrending = api.get(`movie/popular?api_key=${api_key}&page=1`, { params: { api_key } });
   const getSearch = api.get(`https://api.themoviedb.org/3/search/movie?api_key=${api_key}&language=en-US&query=${searchTerm}&page=${currentPage}&include_adult=false`, { params: { api_key } });
 
   useEffect(() => {
     getSearch.then(response => {
       setData(response.data.results);
       setNumOfPages(response.data.total_pages)
-      console.log(data)
     })
   }, [currentPage, getSearch])
 
@@ -63,21 +66,26 @@ export default function SearchPage() {
   const classes = useStyles();
 
   return (
-  <Container maxWidth="lg">
-  <h1>Search Page</h1>
+  <div>
+    <div className="searchBox-container">
+      <TextField
+        className="searchBox"
+        placeholder="Search for a movie"
+        onChange={(e) => setSearchTerm(e.target.value)}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+    </div>
 
-  <TextField
-    style={{ flex: 1 }}
-    className="searchBox"
-    label="Search"
-    variant="filled"
-    onChange={(e) => setSearchTerm(e.target.value)}
-  />
     <div className="searchpage-container">
-
     {data.map((movie, i) => (
       <li key={i} onClick={() => handleClick(movie.id)} className="movielist-items">
-        <img alt="movie-poster" src={getImage(movie.poster_path)} />
+        <img alt="movie-poster" src={getImageCast(movie.poster_path)} />
         <div className="movielist-text">
           <CircularProgressbar
             className={classes.voteBar}
@@ -102,7 +110,7 @@ export default function SearchPage() {
           <CustomPagination setCurrentPage={setCurrentPage} numOfPages={numOfPages} />
     )}
     </div>
-  </Container>
+  </div>
   );
 }
 

@@ -22,7 +22,6 @@ function App() {
           <Route path="/search" exact component={SearchPage} />
           <Route path="/movie/:movie_id" component={MovieDetails} />
         </Switch>
-      <Footer />
     </div>
     </Router>
   );

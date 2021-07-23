@@ -7,12 +7,13 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { makeStyles } from "@material-ui/core/styles";
 import CustomPagination from "../Pagination/CustomPagination";
 
+import getImageCast from "../../hooks/useNoImage";
+
 //css
 import "../MovieList/MovieList.scss";
 
 const api_key  = process.env.REACT_APP_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
-const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 
 function MovieList() {
 
@@ -67,7 +68,7 @@ function MovieList() {
       <ul className="movielist-container">
         {data.map((movie, i) => (
           <li key={i} onClick={() => handleClick(movie.id)} className="movielist-items">
-            <img alt="movie-poster" src={getImage(movie.poster_path)} />
+            <img alt="movie-poster" src={getImageCast(movie.poster_path)} />
             <div className="movielist-text">
               <CircularProgressbar
                 className={classes.voteBar}
